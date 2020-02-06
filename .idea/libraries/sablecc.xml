@@ -2,8 +2,11 @@
   <library name="sablecc">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/sablecc.jar!/" />
+      <root url="file://$PROJECT_DIR$/test" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
   </library>
 </component>

@@ -1,19 +1,158 @@
 Package sc;
 
+
 Helpers
 
 lettre = [['a' .. 'z'] + ['A' .. 'Z']];
+
+
 
 Tokens
 
 espaces = (' ' | 13 | 10)+;
 commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+plus = '+';
+minus = '-';
+mult = '*';
+div = '/';
+par_g = '(';
+par_d = ')';
+cro_g = '[';
+cro_d = ']';
+accol_g = '{';
+accol_d = '}';
+ou = '|';
+et = '&';
+equals = '=';
+inf = '<';
+neg = '!';
+virgule = ',';
+pt_virgule = ';';
+ent = 'entier';
+if = 'si';
+then = 'alors';
+else = 'sinon';
+while = 'tantque';
+do = 'faire';
+return = 'retour';
+read = 'lire';
+write = 'ecrire';
+nb = ['0' .. '9']+;
+id = (lettre | '$' | '_')(lettre | '$' | '_' | ['0' .. '9']+)*;
+
+
 
 Ignored Tokens
 
 espaces, commentaire;
 
+
+
 Productions
 
-programme = optdecvar listedecfonc ;
+programme =
+    {liste_optdeclaravar} liste_optdeclaravar liste_declarafonc |
+    {liste_declarafonc} liste_declarafonc;
 
+liste_optdeclaravar = liste_declaravar pt_virgule;
+
+liste_declarafonc =
+    {oneormore} declarafonc liste_declarafonc |
+    {last} ;
+
+declarafonc =
+    {withvardec} id listeparam liste_optdeclaravar instrbloc |
+    {novardec} id listeparam instrbloc;
+
+listeparam =
+    {withparam} par_g liste_declaravar par_d |
+    {withoutparam} par_g par_d;
+
+liste_declaravar =
+    {morethanone} declaravar liste_declaravar2 |
+    {one} declaravar;
+
+liste_declaravar2 =
+    {more} virgule declaravar liste_declaravar2 |
+    {last} virgule declaravar;
+
+declaravar =
+    {ent} ent id |
+    {inttable} ent id cro_g nb cro_d;
+
+var =
+    {var} id |
+    {table} id cro_g op cro_d;
+
+op =
+    {or} op ou op1 |
+    {op1} op1;
+
+op1 =
+    {et} op1 et op2 |
+    {op2} op2;
+
+op2 =
+    {equals} op2 equals op3 |
+    {inf} op2 inf op3 |
+    {op3} op3;
+
+op3 =
+    {plus} op3 plus op4 |
+    {minus} op3 minus op4 |
+    {op4} op4;
+
+op4 =
+    {mult} op4 mult op5 |
+    {div} op4 div op5 |
+    {op5} op5;
+
+op5 =
+    {neg} neg op5 |
+    {parenthesis} par_g op par_d |
+    {nb} nb |
+    {call} call |
+    {var} var |
+    {read} read par_g par_d;
+
+liste_op =
+    {morethanone} op liste_op2 |
+    {none} ;
+
+liste_op2 =
+    {more} virgule op liste_op2 |
+    {last} ;
+
+instr =
+    {affinstr} affinstr |
+    {ifinstr} ifinstr |
+    {whileinstr} whileinstr |
+    {callinstr} callinstr |
+    {retinstr} retinstr |
+    {writeinstr} writeinstr |
+    {emptyinstr} emptyinstr |
+    {instrbloc} instrbloc ;
+
+affinstr = var equals op pt_virgule;
+
+ifinstr =
+    {ifthen} if op then instrbloc | {ifthenelse} if op then instrbloc elseinstr;
+
+elseinstr = else instrbloc;
+
+whileinstr = while op do instrbloc;
+
+callinstr = call pt_virgule;
+
+call = id par_g liste_op par_d;
+
+retinstr = return op pt_virgule;
+
+writeinstr = write par_g op par_d pt_virgule;
+
+emptyinstr = pt_virgule;
+
+instrbloc = accol_g instrbloc2 accol_d;
+
+instrbloc2 =
+    {instr} instr instrbloc2 | {noinstr} ;
