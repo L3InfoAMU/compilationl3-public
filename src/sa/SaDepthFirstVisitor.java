@@ -1,4 +1,4 @@
-package sa;
+import sa.*;
 
 
 // P -> LDEC LDEC 
@@ -63,14 +63,18 @@ package sa;
 
 
 public class SaDepthFirstVisitor <T> implements SaVisitor <T>{
+
     //   private NouvelleClasse x;
     public void defaultIn(SaNode node)
     {
+		System.out.println("COUCOU");
     }
 
     public void defaultOut(SaNode node)
     {
-    }
+		System.out.println("UOCUOC");
+
+	}
 
     // P -> LDEC LDEC 
     public T visit(SaProg node)

@@ -1,4 +1,8 @@
 package sa;
+import sc.analysis.*;
+import sc.lexer.*;
+import sc.node.*;
+import sc.parser.*;
 import java.io.*;
 
 public class Sa2Xml extends SaDepthFirstVisitor < Void > {
@@ -7,20 +11,21 @@ public class Sa2Xml extends SaDepthFirstVisitor < Void > {
     private String fileName;
     private PrintStream out;
 
-    public Sa2Xml(SaNode root, String baseFileName)
-    {
+    public Sa2Xml(SaNode root, String baseFileName) {
+
 	if (baseFileName == null){
 	    this.out = System.out;	    
 	}
 	else{
 	    try {
-		this.baseFileName = baseFileName;
-		this.fileName = baseFileName + ".sa";
-		this.out = new PrintStream(this.fileName);
+			this.baseFileName = baseFileName;
+			this.fileName = baseFileName + ".sa";
+			this.out = new PrintStream(this.fileName);
+			this.out = System.out;
 	    }
 	    
 	    catch (IOException e) {
-		System.err.println("Error: " + e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 	    }
 	}
 	root.accept(this);

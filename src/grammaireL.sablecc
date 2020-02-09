@@ -82,45 +82,45 @@ declaravar =
 
 var =
     {var} id |
-    {table} id cro_g op cro_d;
+    {table} id cro_g exp cro_d;
 
-op =
-    {or} op ou op1 |
-    {op1} op1;
+exp =
+    {or} exp ou exp1 |
+    {exp1} exp1;
 
-op1 =
-    {et} op1 et op2 |
-    {op2} op2;
+exp1 =
+    {et} exp1 et exp2 |
+    {exp2} exp2;
 
-op2 =
-    {equals} op2 equals op3 |
-    {inf} op2 inf op3 |
-    {op3} op3;
+exp2 =
+    {equals} exp2 equals exp3 |
+    {inf} exp2 inf exp3 |
+    {exp3} exp3;
 
-op3 =
-    {plus} op3 plus op4 |
-    {minus} op3 minus op4 |
-    {op4} op4;
+exp3 =
+    {plus} exp3 plus exp4 |
+    {minus} exp3 minus exp4 |
+    {exp4} exp4;
 
-op4 =
-    {mult} op4 mult op5 |
-    {div} op4 div op5 |
-    {op5} op5;
+exp4 =
+    {mult} exp4 mult exp5 |
+    {div} exp4 div exp5 |
+    {exp5} exp5;
 
-op5 =
-    {neg} neg op5 |
-    {parenthesis} par_g op par_d |
+exp5 =
+    {neg} neg exp5 |
+    {parenthesis} par_g exp par_d |
     {nb} nb |
     {call} call |
     {var} var |
     {read} read par_g par_d;
 
-liste_op =
-    {morethanone} op liste_op2 |
+liste_exp =
+    {morethanone} exp liste_exp2 |
     {none} ;
 
-liste_op2 =
-    {more} virgule op liste_op2 |
+liste_exp2 =
+    {more} virgule exp liste_exp2 |
     {last} ;
 
 instr =
@@ -133,22 +133,22 @@ instr =
     {emptyinstr} emptyinstr |
     {instrbloc} instrbloc ;
 
-affinstr = var equals op pt_virgule;
+affinstr = var equals exp pt_virgule;
 
 ifinstr =
-    {ifthen} if op then instrbloc | {ifthenelse} if op then instrbloc elseinstr;
+    {ifthen} if exp then instrbloc | {ifthenelse} if exp then instrbloc elseinstr;
 
 elseinstr = else instrbloc;
 
-whileinstr = while op do instrbloc;
+whileinstr = while exp do instrbloc;
 
 callinstr = call pt_virgule;
 
-call = id par_g liste_op par_d;
+call = id par_g liste_exp par_d;
 
-retinstr = return op pt_virgule;
+retinstr = return exp pt_virgule;
 
-writeinstr = write par_g op par_d pt_virgule;
+writeinstr = write par_g exp par_d pt_virgule;
 
 emptyinstr = pt_virgule;
 
