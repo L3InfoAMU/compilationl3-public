@@ -1,8 +1,5 @@
 package sa;
-import sc.analysis.*;
-import sc.lexer.*;
-import sc.node.*;
-import sc.parser.*;
+
 import java.io.*;
 
 public class Sa2Xml extends SaDepthFirstVisitor < Void > {
@@ -21,7 +18,7 @@ public class Sa2Xml extends SaDepthFirstVisitor < Void > {
 			this.baseFileName = baseFileName;
 			this.fileName = baseFileName + ".sa";
 			this.out = new PrintStream(this.fileName);
-			this.out = System.out;
+			//this.out = System.out;
 	    }
 	    
 	    catch (IOException e) {

@@ -25,7 +25,6 @@ public class Compiler{
 			e.printStackTrace();
 		} 
 		try {
-
 			Parser p = new Parser(new Lexer(br));
 			Start tree = p.parse();
 			
@@ -37,8 +36,9 @@ public class Compiler{
 			tree.apply(sc2sa);
 			SaNode saRoot = sc2sa.getRoot();
 			new Sa2Xml(saRoot, baseName);
-				
-			/*System.out.println("[TABLE SYMBOLES]");
+
+			/*
+			System.out.println("[TABLE SYMBOLES]");
 			Ts table = new Sa2ts(saRoot).getTableGlobale();
 			table.afficheTout(baseName);
 

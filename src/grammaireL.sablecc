@@ -12,15 +12,15 @@ Tokens
 espaces = (' ' | 13 | 10)+;
 commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
 plus = '+';
-minus = '-';
+moins = '-';
 mult = '*';
 div = '/';
-par_g = '(';
-par_d = ')';
-cro_g = '[';
-cro_d = ']';
-accol_g = '{';
-accol_d = '}';
+parenth_g = '(';
+parenth_d = ')';
+crochet_g = '[';
+crochet_d = ']';
+accolad_g = '{';
+accolad_d = '}';
 ou = '|';
 et = '&';
 equals = '=';
@@ -65,8 +65,8 @@ declarafonc =
     {novardec} id listeparam instrbloc;
 
 listeparam =
-    {withparam} par_g liste_declaravar par_d |
-    {withoutparam} par_g par_d;
+    {withparam} parenth_g liste_declaravar parenth_d |
+    {withoutparam} parenth_g parenth_d;
 
 liste_declaravar =
     {morethanone} declaravar liste_declaravar2 |
@@ -78,11 +78,11 @@ liste_declaravar2 =
 
 declaravar =
     {ent} ent id |
-    {inttable} ent id cro_g nb cro_d;
+    {inttable} ent id crochet_g nb crochet_d;
 
 var =
     {var} id |
-    {table} id cro_g exp cro_d;
+    {table} id crochet_g exp crochet_d;
 
 exp =
     {or} exp ou exp1 |
@@ -99,7 +99,7 @@ exp2 =
 
 exp3 =
     {plus} exp3 plus exp4 |
-    {minus} exp3 minus exp4 |
+    {moins} exp3 moins exp4 |
     {exp4} exp4;
 
 exp4 =
@@ -109,11 +109,11 @@ exp4 =
 
 exp5 =
     {neg} neg exp5 |
-    {parenthesis} par_g exp par_d |
+    {parenthesis} parenth_g exp parenth_d |
     {nb} nb |
     {call} call |
     {var} var |
-    {read} read par_g par_d;
+    {read} read parenth_g parenth_d;
 
 liste_exp =
     {morethanone} exp liste_exp2 |
@@ -144,15 +144,15 @@ whileinstr = while exp do instrbloc;
 
 callinstr = call pt_virgule;
 
-call = id par_g liste_exp par_d;
+call = id parenth_g liste_exp parenth_d;
 
 retinstr = return exp pt_virgule;
 
-writeinstr = write par_g exp par_d pt_virgule;
+writeinstr = write parenth_g exp parenth_d pt_virgule;
 
 emptyinstr = pt_virgule;
 
-instrbloc = accol_g instrbloc2 accol_d;
+instrbloc = accolad_g instrbloc2 accolad_d;
 
 instrbloc2 =
     {instr} instr instrbloc2 | {noinstr} ;

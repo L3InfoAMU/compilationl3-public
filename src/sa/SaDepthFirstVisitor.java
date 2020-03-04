@@ -1,4 +1,4 @@
-import sa.*;
+package sa;
 
 
 // P -> LDEC LDEC 

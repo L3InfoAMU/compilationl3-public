@@ -19,7 +19,6 @@ class Sc2Xml extends DepthFirstAdapter{
 				this.baseFileName = baseFileName;
 				this.fileName = baseFileName + ".sc";
 				this.out = new PrintStream(this.fileName);
-				this.out = System.out;
 			}
 			catch (IOException e) {
 				System.err.println("Error: " + e.getMessage());

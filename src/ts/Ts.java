@@ -11,7 +11,7 @@ public class Ts
 
 
     public int getAdrVarCourante(){return adrVarCourante;}
-    
+
     public Ts(){
 	this.hash = new HashMap< String, TsItem>();
 	this.adrVarCourante = 0;
@@ -19,7 +19,7 @@ public class Ts
 	this.isGlobal = false;
     }
 
-    
+
     public Map<String, TsItem> getHash(){return this.hash;}
 
     public void addItem(String identif, TsItem item){
@@ -43,7 +43,7 @@ public class Ts
 	TsItem item = this.getItem(identif);
 	return item.getTable();
     }
-    
+
     public void afficheTout(String baseFileName){
 	String fileName;
 	PrintStream out = System.out;
@@ -54,7 +54,7 @@ public class Ts
 		fileName = baseFileName + ".ts";
 		out = new PrintStream(fileName);
 	    }
-	    
+
 	    catch (IOException e) {
 		System.err.println("Error: " + e.getMessage());
 	    }
@@ -63,16 +63,16 @@ public class Ts
 	this.affiche(out);
 	this.afficheTablesLocales(out);
     }
-	 
+
     public void affiche(PrintStream out){
-	Set< Map.Entry< String, TsItem> > st = this.hash.entrySet();    
-	for (Map.Entry< String, TsItem> me:st){ 
+	Set< Map.Entry< String, TsItem> > st = this.hash.entrySet();
+	for (Map.Entry< String, TsItem> me:st){
 	    out.println(me.getKey() + ":\t" + me.getValue());
 	}
     }
-	
+
     public void afficheTablesLocales(PrintStream out){
-	Set< Map.Entry< String, TsItem> > st = this.hash.entrySet();    
+	Set< Map.Entry< String, TsItem> > st = this.hash.entrySet();
 	for (Map.Entry< String, TsItem> me:st){
 	    if(me.getValue().getTable() != null){
 		out.println("TABLE LOCALE : " + me.getKey());
