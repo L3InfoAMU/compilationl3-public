@@ -75,6 +75,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.exit(0);
         }
 
+
         if (tableGlobale.getFct(node.getNom()) != null){
             System.out.println("/!\\ Error : method has been yet declared.");
             System.exit(0);
