@@ -1,12 +1,11 @@
 package ts;
 
-public class TsItemVar {//extends TsItem {
+public class TsItemVar extends TsItem{//extends TsItem {
     public Ts portee;
     public int adresse;
     public String identif;
     public int taille;
     public boolean isParam;
-    //public int adresse;
 
     public TsItemVar(String identif, int taille){
         this.identif = identif;
