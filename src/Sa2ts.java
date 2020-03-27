@@ -5,12 +5,12 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
     Ts tableGlobale;
     String nomFctCourrante;
-    boolean contextParam;
+    boolean contextIsParam;
 
     public Sa2ts(SaNode saRoot) {
         tableGlobale = new Ts();
         nomFctCourrante = null;
-        contextParam = false;
+        contextIsParam = false;
         saRoot.accept(this);
     }
 
@@ -27,7 +27,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             }
         }
         else {
-            if (contextParam){                      //Context PARAM
+            if (contextIsParam){                      //Context PARAM
                 if(tableGlobale.getTableLocale(nomFctCourrante).getVar(node.getNom()) == null){
                     node.tsItem = tableGlobale.getTableLocale(nomFctCourrante).addParam(node.getNom());
                 }
@@ -86,7 +86,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         //System.out.println("---param : ");
         if (node.getParametres() != null){
-            contextParam = true;
+            contextIsParam = true;
             node.getParametres().accept(this);
         }
 
@@ -95,7 +95,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             node.getVariable().accept(this);
         }
 
-        contextParam = false;
+        contextIsParam = false;
         //System.out.println("---body : ");
         node.getCorps().accept(this);
 
@@ -112,9 +112,19 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.out.println("/!\\ Error : Variable used but not declared !");
             System.exit(0);
         }
+        else if (nomFctCourrante != null && tableGlobale.getTableLocale(nomFctCourrante).getVar(node.getNom()) != null){
+            node.tsItem = tableGlobale.getTableLocale(nomFctCourrante).getVar(node.getNom());
+        }
+        else if (nomFctCourrante != null && tableGlobale.getVar(node.getNom()) != null){
+            node.tsItem = tableGlobale.getVar(node.getNom());
+        }
+
         if (tableGlobale.getVar(node.getNom()) == null && nomFctCourrante == null){
             System.out.println("/!\\ Error : Variable used but not declared !");
             System.exit(0);
+        }
+        else if (tableGlobale.getVar(node.getNom()) != null && nomFctCourrante == null){
+            node.tsItem = tableGlobale.getVar(node.getNom());
         }
         return null;
     }
@@ -122,9 +132,16 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     public Void visit(SaVarIndicee node){
         //System.out.println("SaVarIndicee\nNom du node :" + node.getNom());
 
-        if (tableGlobale.getVar(node.getNom()).getTaille() == 1){
+        if (tableGlobale.getVar(node.getNom()) == null) {
+            System.out.println("/!\\ ERROR : The variable has not been declared.");
+            System.exit(0);
+        }
+        else if (tableGlobale.getVar(node.getNom()).getTaille() == 1){
             System.out.println("/!\\ Error : Variable must be not indexed !");
             System.exit(0);
+        }
+        else {
+            node.tsItem = tableGlobale.getVar(node.getNom());
         }
         return null;
     }
@@ -137,7 +154,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.exit(0);
         }
         if (node.getArguments() != null){
-            System.out.println("nb args : " + node.getArguments().length());
+            //System.out.println("nb args : " + node.getArguments().length());
 
             if (tableGlobale.getFct(node.getNom()).getNbArgs() < node.getArguments().length()){
                 System.out.println("/!\\ Error : Method called with too much arguments !");
@@ -147,7 +164,10 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
                 System.out.println("/!\\ Error : Method called with not enough arguments !");
                 System.exit(0);
             }
+
+            node.getArguments().accept(this);
         }
+        node.tsItem = tableGlobale.getFct(node.getNom());
         return null;
     }
 

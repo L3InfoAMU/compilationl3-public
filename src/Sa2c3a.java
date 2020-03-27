@@ -12,12 +12,11 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public Sa2c3a(SaNode saRoot, Ts table) {
         c3a = new C3a();
         this.table = table;
-        //saRoot.accept(this);
+        saRoot.accept(this);
     }
 
     public C3aOperand visit(SaProg node) {
         node.getFonctions().accept(this);
-
         return null;
     }
 
@@ -28,7 +27,6 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
             node.getArguments().accept(this);
         }
         c3a.ajouteInst(new C3aInstCall(c3aFunction, null, ""));
-
         return c3aFunction;
     }
 
@@ -72,11 +70,16 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
         return new C3aVar((TsItemVar) node.tsItem, null);
     }
 
+    public C3aOperand visit(SaExpInt node) { return new C3aConstant(node.getVal()); }
+
+    public C3aOperand visit(SaExpVar node) { return node.getVar().accept(this); }
 
 
 
 
 
+
+    
 
     public C3a getC3a() { return c3a; }
 }
