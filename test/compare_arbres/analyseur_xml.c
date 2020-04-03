@@ -304,5 +304,3 @@ noeud *analyseur_xml(void)
   cc = yylex();
   return B();
 }
-
-

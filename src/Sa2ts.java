@@ -3,9 +3,9 @@ import ts.Ts;
 
 public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
-    Ts tableGlobale;
-    String nomFctCourrante;
-    boolean contextIsParam;
+    private Ts tableGlobale;
+    private String nomFctCourrante;
+    private boolean contextIsParam;
 
     public Sa2ts(SaNode saRoot) {
         tableGlobale = new Ts();

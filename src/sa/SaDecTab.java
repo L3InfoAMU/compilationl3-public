@@ -4,12 +4,12 @@ import ts.*;
 public class SaDecTab implements SaDec{
     private String nom;
     private int taille;
-    public TsItem tsItem;
+    public TsItemVar tsItem;
 
     public SaDecTab(String nom, int taille){
-	this.nom = nom;
-	this.taille = taille;
-	this.tsItem = null;
+        this.nom = nom;
+        this.taille = taille;
+        this.tsItem = null;
     }
 
     public String getNom(){return this.nom;}

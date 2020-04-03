@@ -1,0 +1,33 @@
+	call	main	;
+	mov	ebx,	0	;valeur de retour du programme
+	mov	eax,	1	;
+	int 0x80	;
+main :	push	ebp	;sauvegarde la valeur de ebp
+	mov	ebp,	esp	;nouvelle valeur de ebp
+	sub	esp,	0	;allocation des variables locales
+	mov	r0,	2	;
+	imul	r0,	3	;
+	mov	r1,	1	;
+	add	r1,	r0	;
+	mov	r2,	1	;Affect
+	cmp	r1,	0	;Alors
+	jl	l2	;On saute le  bloc si la condition n'est pas réalisée
+	mov	r2,	0	;Affect
+l2 :	mov	r3,	2	;
+	add	r3,	2	;
+	mov	r4,	1	;Affect
+	cmp	r3,	0	;Alors
+	jl	l3	;On saute le  bloc si la condition n'est pas réalisée
+	mov	r4,	0	;Affect
+l3 :	cmp	r2,	0	;JumpIfEqual 1
+	je	l0	;JumpIfEqual 2
+	cmp	r4,	0	;JumpIfEqual 1
+	je	l0	;JumpIfEqual 2
+	mov	r5,	1	;Affect
+	jmp	l1	;Jump
+l0 :	mov	r5,	0	;Affect
+l1 :	mov	eax,	r5	;Write 1
+	call	iprintLF	;Write 2
+	add	esp,	0	;désallocation des variables locales
+	pop	ebp	;restaure la valeur de ebp
+	ret	;

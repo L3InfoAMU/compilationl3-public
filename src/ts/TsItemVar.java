@@ -6,6 +6,7 @@ public class TsItemVar extends TsItem{//extends TsItem {
     public String identif;
     public int taille;
     public boolean isParam;
+    //public int adresse;
 
     public TsItemVar(String identif, int taille){
         this.identif = identif;

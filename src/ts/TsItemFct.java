@@ -2,7 +2,7 @@ package ts;
 import sa.*;
 
 
-public class TsItemFct extends TsItem{//extends TsItem {
+public class TsItemFct extends TsItem {//extends TsItem {
     public String identif;
     public int nbArgs;
     private Ts table;
