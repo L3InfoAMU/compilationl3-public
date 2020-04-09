@@ -7,6 +7,7 @@ public class Node {
     NodeList preds;
 
     private Node(){}
+
     public Node(Graph g) {
         mygraph=g;
         mykey= g.nodecount++;
@@ -17,6 +18,7 @@ public class Node {
     }
 
     public NodeList succ() {return succs;}
+
     public NodeList pred() {return preds;}
 
     public int label() {return mykey;}
@@ -26,6 +28,7 @@ public class Node {
         if (a==null) return b;
         else return new NodeList(a.head, cat(a.tail,b));
     }
+
     public NodeList adj() {return cat(succ(), pred());}
 
     int len(NodeList l) {
@@ -35,7 +38,9 @@ public class Node {
     }
 
     public int inDegree() {return len(pred());}
+
     public int outDegree() {return len(succ());}
+
     public int degree() {return inDegree()+outDegree();}
 
     public boolean goesTo(Node n) {

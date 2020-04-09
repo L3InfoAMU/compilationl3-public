@@ -19,6 +19,4 @@ public class NasmXor extends NasmInst {
     public String toString(){
         return super.formatInst(this.label, "xor", this.destination, this.source, this.comment);
     }
-
-
 }

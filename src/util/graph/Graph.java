@@ -54,7 +54,6 @@ public class Graph {
         }
     }
 
-
     NodeList delete(Node a, NodeList l) {
         if (l==null) throw new Error("Graph.rmEdge: edge nonexistent");
         else if (a==l.head) return l.tail;

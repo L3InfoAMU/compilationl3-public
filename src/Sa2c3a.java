@@ -21,9 +21,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaAppel node) {
         C3aFunction c3aFunction = new C3aFunction(node.tsItem);
 
-        if(node.getArguments() != null) {
-            node.getArguments().accept(this);
-        }
+        if(node.getArguments() != null) node.getArguments().accept(this);
+
         c3a.ajouteInst(new C3aInstCall(c3aFunction, null, ""));
         return c3aFunction;
     }
@@ -55,12 +54,9 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
             C3aTemp c3aTemp = c3a.newTemp();
 
             c3a.ajouteInst(new C3aInstAffect(indice, c3aTemp, ""));
-
             var = new C3aVar((TsItemVar) node.tsItem, c3aTemp);
         }
-        else {
-            var = new C3aVar((TsItemVar) node.tsItem, indice);
-        }
+        else  var = new C3aVar((TsItemVar) node.tsItem, indice);
         return var;
     }
 

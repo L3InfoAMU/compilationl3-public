@@ -19,7 +19,6 @@ public class Nasm{
     public Nasm(Ts tableGlobale){
         this.tableGlobale = tableGlobale;
         this.listeInst = new ArrayList<NasmInst>();
-
     }
 
     public int getTempCounter(){return this.tempCounter;}
@@ -34,7 +33,6 @@ public class Nasm{
             return;
         }
 
-        //	if(inst instanceof NasmCmp && inst.destination instanceof NasmConstant && inst.source instanceof NasmConstant){
         if(inst instanceof NasmCmp
                 && (inst.destination instanceof NasmConstant
                 || (inst.destination instanceof NasmAddress && inst.source instanceof NasmAddress))){
@@ -43,7 +41,6 @@ public class Nasm{
             this.listeInst.add(new NasmCmp(inst.label, newReg, inst.source, "on passe par un registre temporaire"));
             return;
         }
-
         this.listeInst.add(inst);
     }
 
@@ -52,13 +49,11 @@ public class Nasm{
     }
 
 
-    public void affichePreambule(PrintStream out)
-    {
+    public void affichePreambule(PrintStream out) {
         out.println("%include\t'io.asm'\n");
         /* Variables globales */
         out.println("section\t.bss");
         out.println("sinput:\tresb\t255\t;reserve a 255 byte space in memory for the users input string");
-
 
         Set< Map.Entry< String, TsItemVar> > st = tableGlobale.variables.entrySet();
         for (Map.Entry< String, TsItemVar> me:st){
@@ -83,7 +78,6 @@ public class Nasm{
                 fileName = baseFileName + ".pre-nasm";
                 out = new PrintStream(fileName);
             }
-
             catch (IOException e) {
                 System.err.println("Error: " + e.getMessage());
             }
@@ -104,14 +98,11 @@ public class Nasm{
                 fileName = baseFileName + ".nasm";
                 out = new PrintStream(fileName);
             }
-
             catch (IOException e) {
                 System.err.println("Error: " + e.getMessage());
             }
         }
-
         this.affichePreambule(out);
-
 
         Iterator<NasmInst> iter = this.listeInst.iterator();
         while(iter.hasNext()){

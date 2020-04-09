@@ -1,9 +1,7 @@
 package util.graph;
 
-import util.graph.*;
 import util.intset.*;
 import java.util.*;
-import java.io.*;
 
 public class ColorGraph {
     public  Graph          G;
@@ -44,7 +42,8 @@ public class ColorGraph {
         while (pile.size() != 0){
             int s = pile.pop();
             removed.remove(s);
-            if (couleur[s] == NOCOLOR && couleursVoisins(s).getSize() != K)
+            if (couleur[s] == NOCOLOR && choisisCouleur(couleursVoisins(s)) >= 0 &&
+                    choisisCouleur(couleursVoisins(s)) < K)
                 couleur[s] = choisisCouleur(couleursVoisins(s));
         }
     }
@@ -121,8 +120,7 @@ public class ColorGraph {
     /*-------------------------------------------------------------------------------------------------------------*/
 
     public int notInPile(){
-        for (int i=0; i < R; i++)
-            if (!pile.contains(i)) return i;
+        for (int i=0; i < R; i++) if (!pile.contains(i)) return i;
         return R;
     }
 
@@ -140,15 +138,13 @@ public class ColorGraph {
     /*-------------------------------------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------------*/
 
-    public void coloration()
-    {
+    public void coloration() {
         this.simplification();
         this.debordement();
         this.selection();
     }
 
-    void affiche()
-    {
+    void affiche() {
         System.out.println("vertex\tcolor");
         for(int i = 0; i < R; i++){
             System.out.println(i + "\t" + couleur[i]);

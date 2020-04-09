@@ -3,6 +3,7 @@ package nasm;
 public class NasmCall extends NasmInst {
 
     public NasmCall(NasmOperand label, NasmOperand address, String comment){
+
         this.label = label;
         this.address = address;
         this.comment = comment;

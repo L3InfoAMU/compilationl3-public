@@ -26,6 +26,7 @@ public class FgSolution {
         initialisation();
     }
 
+    /**Initialisation d'ensembles In, et out, et de Use, Def pour chaque instruction */
     private void initialisation(){
         for(NasmInst nasmInst : nasm.listeInst) {
             initDefAndUse(nasmInst);
@@ -71,26 +72,27 @@ public class FgSolution {
             out.put(nasmInst, new IntSet(10));
             outPrime.put(nasmInst, new IntSet(10));
         }
+
         do {
-            for(NasmInst s : nasm.listeInst) {
-                inPrime.replace(s, in.get(s));
-                outPrime.replace(s, out.get(s));
+            for(NasmInst nasmInst : nasm.listeInst) {//sommet
+                inPrime.replace(nasmInst, in.get(nasmInst));
+                outPrime.replace(nasmInst, out.get(nasmInst));
 
-                IntSet inS = use.get(s).copy();
-                IntSet outS = out.get(s).copy();
+                IntSet inS = use.get(nasmInst).copy();
+                IntSet outS = out.get(nasmInst).copy();
 
-                outS.minus(def.get(s));
+                outS.minus(def.get(nasmInst));
                 inS.union(outS);
-                in.replace(s, inS);
+                in.replace(nasmInst, inS);
 
-                Node nodeS = fg.inst2Node.get(s);
-                NodeList nodePred = nodeS.pred();   //predecesseur
+                Node nodeS = fg.inst2Node.get(nasmInst);
+                NodeList pred = nodeS.pred();   //predecesseur
 
-                while(nodePred != null) {
-                    NasmInst nasmInstHead = fg.node2Inst.get(nodePred.head);
+                while(pred != null) {
+                    NasmInst nasmInstHead = fg.node2Inst.get(pred.head);
 
-                    out.replace(nasmInstHead, out.get(nasmInstHead).union(in.get(s)));
-                    nodePred = nodePred.tail;
+                    out.replace(nasmInstHead, out.get(nasmInstHead).union(in.get(nasmInst)));
+                    pred = pred.tail;
                 }
             }
             test = true;
@@ -115,12 +117,10 @@ public class FgSolution {
                 fileName = baseFileName + ".fgs";
                 out = new PrintStream(fileName);
             }
-
             catch (IOException e) {
                 System.err.println("Error: " + e.getMessage());
             }
         }
-
         out.println("iter num = " + iterNum);
         for(NasmInst nasmInst : this.nasm.listeInst){
             out.println("use = "+ this.use.get(nasmInst) + " def = "+ this.def.get(nasmInst) + "\tin = " + this.in.get(nasmInst) + "\t \tout = " + this.out.get(nasmInst) + "\t \t" + nasmInst);

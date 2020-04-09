@@ -8,14 +8,13 @@ import sa.*;
 import ts.*;
 import java.io.*;
 import nasm.*;
+import ig.*;
 
 public class Compiler{
-
     public static void main(String[] args){
 
 		PushbackReader br = null;
 		String baseName = null;
-
 		try {
 
 			if (0 < args.length) {
@@ -30,14 +29,17 @@ public class Compiler{
 			e.printStackTrace();
 		} 
 		try {
-			// Create a Parser instance.
 			Parser p = new Parser(new Lexer(br));
-			// Parse the input.
+
+			/*-------------SC----------------*/
+
 			System.out.print("[BUILD SC] ");
 			Start tree = p.parse();
 
 			System.out.println("[PRINT SC]");
 			tree.apply(new Sc2Xml(baseName));
+
+			/*-------------SA----------------*/
 
 			System.out.print("[BUILD SA] ");
 			Sc2sa sc2sa = new Sc2sa();
@@ -47,17 +49,23 @@ public class Compiler{
 			System.out.println("[PRINT SA]");
 			new Sa2Xml(saRoot, baseName);
 
+			/*-------------TS----------------*/
+
 			System.out.print("[BUILD TS] ");
 			Ts table = new Sa2ts(saRoot).getTableGlobale();
 
 			System.out.println("[PRINT TS]");
 			table.afficheTout(baseName);
 
+			/*-------------SA OUT----------------*/
+
 			System.out.print("[EXEC SA] ");
 			SaEval saEval = new SaEval(saRoot, table);
 
 			System.out.println("[SA OUT]");
 			saEval.affiche(baseName);
+
+			/*-------------C3A----------------*/
 
 			System.out.print("[BUILD C3A] ");
 			C3a c3a = new Sa2c3a(saRoot).getC3a();
@@ -69,13 +77,19 @@ public class Compiler{
 			C3aEval c3aEval = new C3aEval(c3a, table);
 			c3aEval.affiche(baseName);
 
+			/*-------------PRENASM----------------*/
+
 			System.out.print("[BUILD PRE NASM] ");
 			Nasm nasm = new C3a2nasm(c3a, table).getNasm();
+
 			System.out.println("[PRINT PRE NASM] ");
 			nasm.affichePre(baseName);
 
+			/*-------------FG----------------*/
+
 			System.out.print("[BUILD FG] ");
 			Fg fg = new Fg(nasm);
+
 			System.out.print("[PRINT FG] ");
 			fg.affiche(baseName);
 
@@ -83,6 +97,21 @@ public class Compiler{
 			FgSolution fgSolution = new FgSolution(nasm, fg);
 			fgSolution.affiche(baseName);
 
+			/*-------------IG----------------*/
+
+			System.out.print("[BUILD IG] ");
+			Ig ig = new Ig(fgSolution);
+
+			System.out.print("[PRINT IG] ");
+			ig.affiche(baseName);
+
+			/*-------------NASM----------------*/
+
+			System.out.println("[ALLOCATE REGISTERS]");
+			ig.allocateRegisters();
+
+			System.out.println("[PRINT NASM]");
+			nasm.affiche(baseName);
 
 		}
 		catch(Exception e){
@@ -90,12 +119,10 @@ public class Compiler{
 		}
     }
 
-
     public static String removeSuffix(final String s, final String suffix){
 		if (s != null && suffix != null && s.endsWith(suffix)){
 			return s.substring(0, s.length() - suffix.length());
 		}
 		return s;
     }
-    
 }

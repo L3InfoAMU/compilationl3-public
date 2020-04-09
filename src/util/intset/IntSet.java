@@ -11,14 +11,9 @@ public class IntSet{
             array[i] = false;
     }
 
-    public int getSize(){
-        return size;
-    }
+    public int getSize(){ return size; }
 
-    public void empty(){
-        for (int i = 0; i < size; i++)
-            array[i] = false;
-    }
+    public void empty(){ for (int i = 0; i < size; i++) array[i] = false; }
 
     public boolean isMember(int elt){
         if(elt >= size) return false;

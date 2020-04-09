@@ -15,10 +15,6 @@ public class NasmMul extends NasmInst {
         return visitor.visit(this);
     }
 
-    /*    public String toString(){
-	return super.formatInst(this.label, "imul", this.source, null, this.comment);
-	}*/
-
     public String toString(){
         return super.formatInst(this.label, "imul", this.destination, this.source, this.comment);
     }

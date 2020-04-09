@@ -13,12 +13,6 @@ public class NasmJle extends NasmInst {
     }
 
     public String toString(){
-        //	String formatInst
-        //	addLabel(label);
-
-        //return formatInst;
-
-
         return super.formatInst(this.label, "jle", this.address, null, this.comment);
     }
 
